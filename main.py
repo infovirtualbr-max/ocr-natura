@@ -1,4 +1,8 @@
 from flask import Flask, request, jsonify
+import pytesseract
+import requests
+import tempfile
+from pdf2image import convert_from_bytes
 
 app = Flask(__name__)
 
@@ -10,15 +14,19 @@ def home():
 def ocr():
 
     data = request.json
-    image_url = data.get("image")
+    pdf_url = data.get("image")
 
-    print("Recebido para OCR:", image_url)
+    print("Processando:", pdf_url)
 
-    # MOCK inicial (teste de integração)
+    r = requests.get(pdf_url)
+    images = convert_from_bytes(r.content)
+
+    texto_final = ""
+
+    for img in images:
+        texto_final += pytesseract.image_to_string(img, lang="por")
+
     return jsonify({
-        "text": "OCR OK",
-        "confidence": 99
+        "text": texto_final,
+        "confidence": 90
     })
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
