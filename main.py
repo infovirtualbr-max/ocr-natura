@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Servidor OCR ativo"
+    return "VERSAO NOVA"
 
 @app.route("/api/ocr", methods=["POST"])
 def ocr():
@@ -30,4 +30,5 @@ def ocr():
         "text": texto_final,
         "confidence": 90
     })
+
 
