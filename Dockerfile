@@ -1,9 +1,9 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-por \
-    && rm -rf /var/lib/apt/lists/*
+    poppler-utils
 
 WORKDIR /app
 
@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "-b", "0.0.0.0:10000", "main:app"]
+CMD ["python", "main.py"]
