@@ -26,7 +26,8 @@ def ocr():
     for img in images:
         texto_final += pytesseract.image_to_string(img, lang="por")
 
-    return jsonify({
+    return "VERSAO NOVA"({
         "text": texto_final,
         "confidence": 90
     })
+
