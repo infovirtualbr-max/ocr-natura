@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import pytesseract
 import requests
-import tempfile
 from pdf2image import convert_from_bytes
 
 app = Flask(__name__)
@@ -12,11 +11,8 @@ def home():
 
 @app.route("/api/ocr", methods=["POST"])
 def ocr():
-
     data = request.json
     pdf_url = data.get("image")
-
-    print("Processando:", pdf_url)
 
     r = requests.get(pdf_url)
     images = convert_from_bytes(r.content)
@@ -30,3 +26,6 @@ def ocr():
         "text": texto_final,
         "confidence": 90
     })
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
